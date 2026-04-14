@@ -420,12 +420,11 @@ elif menu=="Appointments":
         st.success("Appointment booked")
 
 
-# ---------------- DASHBOARD ----------------
-
 elif menu=="Dashboard":
+
     if st.session_state.role != "Admin":
         st.error("Access Denied 🚫 (Admin Only)")
-    st.stop()
+        st.stop()
 
     st.header("Doctor Dashboard")
 
@@ -446,7 +445,11 @@ elif menu=="Dashboard":
 
     fig,ax=plt.subplots()
 
-    df["disease"].value_counts().plot(kind="bar",ax=ax,color=["red","blue","green","orange"])
+    df["disease"].value_counts().plot(
+        kind="bar",
+        ax=ax,
+        color=["red","blue","green","orange"]
+    )
 
     st.pyplot(fig)
 
@@ -456,5 +459,14 @@ elif menu=="Dashboard":
     st.subheader("Appointments")
     st.dataframe(ap)
 
-    st.download_button("Download Patients",df.to_csv(index=False),"patients.csv")
-    st.download_button("Download Appointments",ap.to_csv(index=False),"appointments.csv")
+    st.download_button(
+        "Download Patients",
+        df.to_csv(index=False),
+        "patients.csv"
+    )
+
+    st.download_button(
+        "Download Appointments",
+        ap.to_csv(index=False),
+        "appointments.csv"
+    )
