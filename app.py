@@ -160,12 +160,23 @@ if st.button("Logout"):
     st.session_state.login=False
     st.rerun()
 
-# ---------------- MENU ----------------
+# ROLE BASED MENU
 
-menu=st.sidebar.radio("Menu",
-["Prediction","Chatbot","Blood Analyzer","Appointments","Dashboard"]
-)
-
+if st.session_state.role == "Admin":
+    menu = st.sidebar.radio("Menu",[
+        "Prediction",
+        "Chatbot",
+        "Blood Analyzer",
+        "Appointments",
+        "Dashboard"
+    ])
+else:
+    menu = st.sidebar.radio("Menu",[
+        "Prediction",
+        "Chatbot",
+        "Blood Analyzer",
+        "Appointments"
+    ])
 # ---------------- MODEL ----------------
 
 model=pickle.load(open("model.pkl","rb"))
@@ -412,6 +423,9 @@ elif menu=="Appointments":
 # ---------------- DASHBOARD ----------------
 
 elif menu=="Dashboard":
+    if st.session_state.role != "Admin":
+        st.error("Access Denied 🚫 (Admin Only)")
+    st.stop()
 
     st.header("Doctor Dashboard")
 
